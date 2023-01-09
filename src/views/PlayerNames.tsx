@@ -28,12 +28,10 @@ const PlayerNames: React.FunctionComponent<PlayerNamesProps> = ({ amount, onBack
 	});
 
 	const onNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-		setNames(names => {
-			const index = parseInt(evt.target.name, 10);
-			const newNames = [...names];
-			newNames[index] = evt.target.value;
-			return newNames;
-		});
+		const index = parseInt(evt.target.name, 10);
+		const newNames = [...names];
+		newNames[index] = evt.target.value;
+		setNames(newNames);
 	};
 
 	return (
@@ -43,7 +41,8 @@ const PlayerNames: React.FunctionComponent<PlayerNamesProps> = ({ amount, onBack
 				onBack={onBack}
 				onNext={() => {
 					localStorage.names = JSON.stringify(names);
-					onNext(names);
+					const filledName = names.map((name, index) => (name ? name : `Player ${index + 1}`));
+					onNext(filledName);
 				}}
 			/>
 			<List>

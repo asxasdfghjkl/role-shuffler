@@ -24,16 +24,26 @@ const Distribute: React.FunctionComponent<DistributeProps> = ({ onBack, roles, n
 		<>
 			{displaying !== undefined && (
 				<Dialog open>
-					<DialogContent className="text-center">
+					<DialogContent className="text-center overflow-x-hidden">
 						You are
-						<Typography variant="h3">{roles[displaying]}</Typography>
+						<Typography variant="h3" className="whitespace-pre-wrap">
+							{roles[displaying]}
+						</Typography>
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={() => setDisplaying(undefined)}>Close</Button>
 					</DialogActions>
 				</Dialog>
 			)}
-			<StepControl currentStep={2} nextDisabled onBack={onBack} />
+			<StepControl
+				currentStep={2}
+				nextDisabled
+				onBack={() => {
+					if (confirm('Are you sure? You will lose the current roles assigned to players.')) {
+						onBack();
+					}
+				}}
+			/>
 			<Grid container spacing={2} className="mt-3 px-2">
 				{names.map((name, index) => (
 					<Grid key={index} xs={6}>

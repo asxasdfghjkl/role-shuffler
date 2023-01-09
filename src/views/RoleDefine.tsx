@@ -15,26 +15,24 @@ const RoleDefine: React.FunctionComponent<RoleDefineProps> = ({ onNext, defaultR
 	const onRoleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		setRoles(roles => {
 			const newRoles = [...roles];
-			const targetIndex = parseInt(evt.currentTarget.name, 10);
-			newRoles[targetIndex].name = evt.currentTarget.value;
+			const targetIndex = parseInt(evt.target.name, 10);
+			newRoles[targetIndex].name = evt.target.value;
 			return newRoles;
 		});
 	};
 
 	const onRoleAmountChange = (evt: React.MouseEvent<HTMLButtonElement>) => {
-		setRoles(roles => {
-			const newRoles = [...roles];
+		const newRoles = [...roles];
 
-			const index = parseInt(evt.currentTarget.dataset.index!, 10);
-			const delta = parseInt(evt.currentTarget.dataset.delta!, 10);
-			const role = newRoles[index];
-			role.amount += delta;
-			if (role.amount === 0) {
-				newRoles.splice(index, 1);
-			}
+		const index = parseInt(evt.currentTarget.dataset.index!, 10);
+		const delta = parseInt(evt.currentTarget.dataset.delta!, 10);
+		const role = newRoles[index];
+		role.amount += delta;
+		if (role.amount === 0) {
+			newRoles.splice(index, 1);
+		}
 
-			return newRoles;
-		});
+		setRoles(newRoles);
 	};
 
 	const onNewRole = () => {
