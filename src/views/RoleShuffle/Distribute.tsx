@@ -1,7 +1,7 @@
 import { Button, Chip, Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import * as React from 'react';
-import StepControl from '../components/StepControl';
+import StepControl from '../../components/StepControl';
 
 declare interface DistributeProps {
 	onBack: () => void;
@@ -35,15 +35,6 @@ const Distribute: React.FunctionComponent<DistributeProps> = ({ onBack, roles, n
 					</DialogActions>
 				</Dialog>
 			)}
-			<StepControl
-				currentStep={2}
-				nextDisabled
-				onBack={() => {
-					if (confirm('Are you sure? You will lose the current roles assigned to players.')) {
-						onBack();
-					}
-				}}
-			/>
 			<Grid container spacing={2} className="mt-3 px-2">
 				{names.map((name, index) => (
 					<Grid key={index} xs={6}>
@@ -59,6 +50,15 @@ const Distribute: React.FunctionComponent<DistributeProps> = ({ onBack, roles, n
 					</Grid>
 				))}
 			</Grid>
+			<StepControl
+				currentStep={2}
+				nextDisabled
+				onBack={() => {
+					if (confirm('Are you sure? You will lose the current roles assigned to players.')) {
+						onBack();
+					}
+				}}
+			/>
 		</>
 	);
 };

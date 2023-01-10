@@ -1,8 +1,8 @@
 import { Add, AddCircle, Remove } from '@mui/icons-material';
 import { Button, IconButton, List, ListItem, TextField } from '@mui/material';
 import * as React from 'react';
-import StepControl from '../components/StepControl';
-import { RoleObj } from '../objs/RoleObj';
+import StepControl from '../../components/StepControl';
+import { RoleObj } from '../../objs/RoleObj';
 
 declare interface RoleDefineProps {
 	defaultRoles?: RoleObj[];
@@ -48,13 +48,6 @@ const RoleDefine: React.FunctionComponent<RoleDefineProps> = ({ onNext, defaultR
 
 	return (
 		<>
-			<StepControl
-				currentStep={0}
-				nextDisabled={roles.length < 2}
-				onNext={() => {
-					onNext(roles);
-				}}
-			/>
 			<List>
 				{roles.map((role, index) => (
 					<ListItem key={index}>
@@ -74,6 +67,13 @@ const RoleDefine: React.FunctionComponent<RoleDefineProps> = ({ onNext, defaultR
 					New Role
 				</Button>
 			</div>
+			<StepControl
+				currentStep={0}
+				nextDisabled={roles.length < 2}
+				onNext={() => {
+					onNext(roles);
+				}}
+			/>
 		</>
 	);
 };

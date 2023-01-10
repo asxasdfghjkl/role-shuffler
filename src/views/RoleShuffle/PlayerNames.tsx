@@ -1,6 +1,6 @@
 import { List, ListItem, TextField } from '@mui/material';
 import * as React from 'react';
-import StepControl from '../components/StepControl';
+import StepControl from '../../components/StepControl';
 
 declare interface PlayerNamesProps {
 	amount: number;
@@ -36,15 +36,6 @@ const PlayerNames: React.FunctionComponent<PlayerNamesProps> = ({ amount, onBack
 
 	return (
 		<>
-			<StepControl
-				currentStep={1}
-				onBack={onBack}
-				onNext={() => {
-					localStorage.names = JSON.stringify(names);
-					const filledName = names.map((name, index) => (name ? name : `Player ${index + 1}`));
-					onNext(filledName);
-				}}
-			/>
 			<List>
 				{names.map((name, index) => (
 					<ListItem key={index}>
@@ -59,6 +50,15 @@ const PlayerNames: React.FunctionComponent<PlayerNamesProps> = ({ amount, onBack
 					</ListItem>
 				))}
 			</List>
+			<StepControl
+				currentStep={1}
+				onBack={onBack}
+				onNext={() => {
+					localStorage.names = JSON.stringify(names);
+					const filledName = names.map((name, index) => (name ? name : `Player ${index + 1}`));
+					onNext(filledName);
+				}}
+			/>
 		</>
 	);
 };
