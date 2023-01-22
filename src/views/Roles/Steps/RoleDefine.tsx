@@ -1,16 +1,17 @@
 import { Add, AddCircle, Remove } from '@mui/icons-material';
 import { Button, IconButton, List, ListItem, TextField } from '@mui/material';
 import * as React from 'react';
-import StepControl from '../../components/StepControl';
-import { RoleObj } from '../../objs/RoleObj';
+import { useFeatureState } from '../../../components/Feature';
+import StepControl from '../../../components/StepControl';
+import { Role } from '../objs/role';
+import { RoleFeatureState } from '../objs/roleFeatureState';
 
-declare interface RoleDefineProps {
-	defaultRoles?: RoleObj[];
-	onNext: (roles: RoleObj[]) => void;
-}
+declare interface RoleDefineProps {}
 
-const RoleDefine: React.FunctionComponent<RoleDefineProps> = ({ onNext, defaultRoles }) => {
-	const [roles, setRoles] = React.useState<RoleObj[]>(defaultRoles ?? []);
+const RoleDefine: React.FunctionComponent<RoleDefineProps> = () => {
+	const { getState, setState } = useFeatureState<RoleFeatureState>();
+
+	const [roles, setRoles] = React.useState(getState<Role[]>('roles'));
 	const roleIndexRef = React.useRef(1);
 	const onRoleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		setRoles(roles => {
@@ -71,7 +72,8 @@ const RoleDefine: React.FunctionComponent<RoleDefineProps> = ({ onNext, defaultR
 				currentStep={0}
 				nextDisabled={roles.length < 2}
 				onNext={() => {
-					onNext(roles);
+					setState('step', 1);
+					setState('roles', roles);
 				}}
 			/>
 		</>

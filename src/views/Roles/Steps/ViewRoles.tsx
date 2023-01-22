@@ -1,22 +1,21 @@
 import { Button, Chip, Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import * as React from 'react';
-import StepControl from '../../components/StepControl';
+import { useFeatureState } from '../../../components/Feature';
+import StepControl from '../../../components/StepControl';
+import { RoleFeatureState } from '../objs/roleFeatureState';
 
-declare interface DistributeProps {
-	onBack: () => void;
-	roles: string[];
-	names: string[];
-}
+const Distribute: React.FunctionComponent = () => {
+	const { getState, setState, setActivated } = useFeatureState<RoleFeatureState>();
+	const { names, assignedRoles } = getState();
 
-const Distribute: React.FunctionComponent<DistributeProps> = ({ onBack, roles, names }) => {
-	const [clicked, setClicked] = React.useState<number[]>([]);
+	const [clickCounts, setClickCounts] = React.useState<number[]>([]);
 	const [displaying, setDisplaying] = React.useState<number>();
 
 	const onNameClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
 		const index = parseInt(evt.currentTarget.dataset.index!, 10);
-		clicked[index] = (clicked[index] || 0) + 1;
-		setClicked([...clicked]);
+		clickCounts[index] = (clickCounts[index] || 0) + 1;
+		setClickCounts([...clickCounts]);
 		setDisplaying(index);
 	};
 
@@ -27,7 +26,7 @@ const Distribute: React.FunctionComponent<DistributeProps> = ({ onBack, roles, n
 					<DialogContent className="text-center overflow-x-hidden">
 						You are
 						<Typography variant="h3" className="whitespace-pre-wrap">
-							{roles[displaying]}
+							{assignedRoles![displaying]}
 						</Typography>
 					</DialogContent>
 					<DialogActions>
@@ -41,11 +40,11 @@ const Distribute: React.FunctionComponent<DistributeProps> = ({ onBack, roles, n
 						<Button
 							variant="contained"
 							fullWidth
-							color={clicked[index] ? 'success' : 'warning'}
+							color={clickCounts[index] ? 'success' : 'warning'}
 							data-index={index}
 							onClick={onNameClick}
 						>
-							{name} {!!clicked[index] && <Chip size="small" label={clicked[index]} className="ml-1" />}
+							{name} {!!clickCounts[index] && <Chip size="small" label={clickCounts[index]} className="ml-1" />}
 						</Button>
 					</Grid>
 				))}
@@ -55,7 +54,9 @@ const Distribute: React.FunctionComponent<DistributeProps> = ({ onBack, roles, n
 				nextDisabled
 				onBack={() => {
 					if (confirm('Are you sure? You will lose the current roles assigned to players.')) {
-						onBack();
+						setState('step', 1);
+						setState('assignedRoles', null);
+						setActivated(false);
 					}
 				}}
 			/>

@@ -1,6 +1,7 @@
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { Button, MobileStepper } from '@mui/material';
 import * as React from 'react';
+import { useFeatureState } from './Feature';
 
 declare interface StepControlProps {
 	currentStep: number;
@@ -11,6 +12,7 @@ declare interface StepControlProps {
 }
 
 const StepControl: React.FunctionComponent<StepControlProps> = ({ currentStep, onBack, onNext, backDisabled, nextDisabled }) => {
+	const { getState } = useFeatureState<any>();
 	return (
 		<>
 			<MobileStepper
@@ -22,7 +24,7 @@ const StepControl: React.FunctionComponent<StepControlProps> = ({ currentStep, o
 			/>
 			<MobileStepper
 				activeStep={currentStep}
-				steps={3}
+				steps={getState('steps')}
 				position="bottom"
 				backButton={
 					<Button disabled={currentStep === 0 || backDisabled} startIcon={<KeyboardArrowLeft />} onClick={onBack}>

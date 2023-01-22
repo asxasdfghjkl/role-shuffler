@@ -4,3 +4,7 @@ body {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+
+.flex-center {
+	@apply flex justify-center items-center;
+}

@@ -1,4 +1,4 @@
-export type RoleObj = {
+export type Role = {
 	name: string;
 	amount: number;
 };
